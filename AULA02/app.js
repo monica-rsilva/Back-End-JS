@@ -77,25 +77,44 @@
                      * OU || (pipe)  OR
                      * E  &&         AND
                      * Negação  !    NOT
+                     * 
+                     * Ordem de execução dos operadores lógicos:
+                     * 0º ()
+                     * 1º Negação
+                     * 2º E
+                     * 3º OU 
                      */
 
                      //Validação para tratar entradas vazias com ||
                      if (primeiraNota == '' || segundaNota == '' || terceiraNota == '' || quartaNota == '' )
                      {
-                         console.log('Erro: é necessário digitar algum valor nas entradas')
-                     }
-
-                     else if(isNaN(primeiraNota) || isNaN(segundaNota) || isNaN(terceiraNota) || isNaN(quartaNota)) {
+                        console.log('Erro: é necessário digitar algum valor nas entradas')
+                     
+                     //Validação para entrada de dados não numericas 
+                     }else if(isNaN(primeiraNota) || isNaN(segundaNota) || isNaN(terceiraNota) || isNaN(quartaNota)) {
                         console.log('Erro: é necessário que todos os dados digitados sejam números')
-                     }
+                     
+                     //Validação para entrada de dados entre 0 e 10 
+                     }else if(
+                        primeiraNota < 0 || primeiraNota > 10 || 
+                        segundaNota < 0 || segundaNota > 10 || 
+                        terceiraNota < 0 || terceiraNota > 10 || 
+                        quartaNota < 0 || quartaNota > 10)
+                     {
 
-                    //  else if(primeiraNota + segundaNota + terceiraNota + quartaNota > 10 && primeiraNota + segundaNota + terceiraNota + quartaNota < 0) {
-                    //     console.log('Erro: é necessário que as notas esteja entre 0 à 10')
-                    //  }
+                        console.log('ERRO: O sitema aceita somente números entre 0 até 10.')
 
-                     else {
+                     }else {
                         media = (Number(primeiraNota) + Number(segundaNota) + Number(terceiraNota) + Number(quartaNota))/4;
-                        console.log(media);
+
+                        if(media >= 7){
+                            console.log('Status do Aluno: Aprovado!')
+                        } 
+                        else {
+                            console.log('Status do Aluno: Reprovado!')
+                        }
+                        //toFixed(); Para fixar apenas uma casa após o numero decimal 
+                        console.log(nome + ',' + ' Sua média é: ' + media.toFixed(1));
                      }
 
                      //Validação para tratar entradas vazias com &&
