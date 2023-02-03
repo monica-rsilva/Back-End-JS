@@ -21,28 +21,33 @@ entradaDados.question('Digite o primeiro valor \n', function(valor1){
     entradaDados.question('Digite o segundo valor \n', function(valor2){
         let segundoValor = valor2.replace(",",".")
 
-        entradaDados.question('Escolha a operação:\n a) Soma \n b) Subtração \n c) Multiplicação\n d) Divisão ', function (oper){
+        entradaDados.question('Escolha a operação:\n a) somar \n b) subtrair \n c) multiplicar\n d) dividir\n', function (oper){
             let operacao = oper
+            let resultado;
 
-            let soma = "a"
-            let subtracao = "b"
-            let multiplicacao = "c"
-            let divisao = "d"
-
-            let resultado = 0
-
-            if (primeiroValor == "" || segundoValor == ""){
+            if (primeiroValor == '' || segundoValor == '' || operacao == ''){
                 console.log('Erro: Preencha todas as entradas de valores')
 
             } else if(isNaN(primeiroValor) || isNaN(segundoValor)){
                 console.log('Erro: é necessário que todos os dados digitados sejam números')
 
-            }
-            //else{
-                //resultado = Number(primeiroValor) + Number(segundoValor);
+            } else {
 
-                //console.log(resultado);
-            //}
+              if (operacao == 'somar') {
+                resultado = Number(primeiroValor) + Number(segundoValor);
+
+             } else if (operacao == 'subtrair') {
+                resultado = Number(primeiroValor) - Number(segundoValor);
+
+             } else if (operacao == 'multiplicar') {
+                resultado = Number(primeiroValor) * Number(segundoValor);
+
+             } else if (operacao == 'dividir') {
+                resultado = Number(primeiroValor) / Number(segundoValor);
+             } else {
+                  console.log(resultado);
+              }
+            }
         })
     })
 })
