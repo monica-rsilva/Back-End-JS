@@ -5,6 +5,7 @@
  * versão: 1.0 
  * ********************************************************************************/
 
+ //importe da biblioteca da calculadora (criado por nós)
  var matematica = require('./modulo/calculadora.js');
 
 
@@ -47,10 +48,21 @@ entradaDados.question('Valor1: \n', function (numero1) {
 
             } else if (isNaN(valor1) || isNaN(valor2)) {
                 console.log('Erro: Não é possível calcular sem a entrada de valores númericos')
-                entradaDados.close();
+                entradaDados.close(); //Fecha o objeto de entrada de dados (encerra o programa)
             } else {
+
+                //chama a função calcular, encaminhando os dados para o calculo
                 resultado = matematica.calcular(valor1,valor2,operacao);
-                console.log(resultado);
+
+                //valida se o retorno da função é verdadeiro ou falso(se for falso, encerra o programa)
+
+                // if (resultado == false && typeof(resultado) == 'boolean'){   ->  1 metodo - Tratativa para saber se o 0 é numerico ou booleano 
+                // if (resultado === false) {                                   ->  2 metodo - Fazendo a comparação do conteudo e tipagem com os 3 iguais                                 
+                if (resultado === false) {
+                    entradaDados.close();
+                } else {
+                    console.log(resultado);
+                }
             }
         })
     })
