@@ -25,9 +25,11 @@ const tabuada = function (multiplicando, maxMultiplicador) {
             resultado = tabuada * contTabuada;
 
             //2x0=0
+
+            //utilizando concatenação 
             // console.log(tabuada + 'x' + contTabuada + '=' + resultado);
             
-            //Entre a crase considera tudo como uma string, e para definir o que é variavel usamos ${variavel}
+            //utilizando a crase -> Entre a crase considera tudo como uma string, e para definir o que é variavel usamos ${variavel}
             console.log(`${tabuada} x  ${contTabuada}  =  ${resultado}`);
 
             //contTabuada igual a ele mesmo somando mais 1, forma indicada para quem está iniciando em laços de repetição 

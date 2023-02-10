@@ -67,3 +67,4 @@ entradaDados.question('Valor1: \n', function (numero1) {
         })
     })
 })
+
