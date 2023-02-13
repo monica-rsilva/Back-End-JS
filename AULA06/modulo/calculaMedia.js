@@ -14,7 +14,7 @@ const calcularMedia = function (nota1, nota2, nota3, nota4){
 
     let resultado = (Number(primeiraNota) + Number(segundaraNota) + Number(terceiraNota) + Number(quartaNota))/4;
 
-    console.log(resultado);
+    return resultado;
 }
 
 module.exports = {
