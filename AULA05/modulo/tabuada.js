@@ -7,6 +7,7 @@
 
 //Calcula uma tabuada
 const tabuada = function (multiplicando, maxMultiplicador) {
+
     let tabuada = Number(multiplicando);
     let contador = Number(maxMultiplicador);
     let contTabuada = 0; //start da repetição 
