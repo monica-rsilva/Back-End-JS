@@ -10,7 +10,21 @@
 
  const listaNomes = ['Jose','Maria','Luiz','Carlos', 'Sophia','Lennon'];
  const listaProdutos = ['Teclado','Mouse','Monitor','Computador','Fone','Impressora','Scanner','WebCam']
+ const listaProdutosJSON = {};
+ const listProdutosJSON = {};
 
+ /**
+  * Exemplo de um JSON com estrutura de array 
+  * 
+  * produtos = {
+  *        [
+  *         {nome : "teclado", cor : "preto", quantidade : 50}
+  *         {nome : "monitor", cor : "branco", quantidade : 30}
+  *         {nome : "mouse", cor : "branco", quantidade : 30}
+  *        ]
+  * }
+  */
+ 
  //Forma ERRADA de manipular um conjunto de dados
  // const nome1 = 'Jose';
  // const nome2 = 'Maria';
@@ -130,10 +144,69 @@ console.log(novosProdutos);
         return status;
  };
 
- console.log(removerElemento(listaNomes,'Maria'));
- console.log(listaProdutos);
- 
+ const listagemProdutos = function(){
+
+    
+    let listProdutos = [
+                        {nome : "Teclado Dell", valor : 200, quantidade : 50},
+                        {nome : "Monitor Dell", valor : 1000, quantidade : 70},
+                        {nome : "Mouse Dell", valor : 100, quantidade : 350}
+                       ]
+    let listCores = ['Branco','Preto','Cinza']
+    let listTipoTeclado = ['Mecanico','Semi-Mecanico','Membrana']
+    let listTipoMonitor = ['LCD','Full-HD','4K']
+
+    //Adiciona chaves (opções) no teclado
+    listProdutos[0].cores = listCores;
+    listProdutos[0].tipo = listTipoTeclado;
+
+    //Adiciona chaves (opções) no monitor
+    listProdutos[1].cores = listCores;
+    listProdutos[1].tipo = listTipoMonitor;
+
+    //Adiciona chaves (opções) no mouse
+    listProdutos[2].cores = listCores;
+
+    //Adiciona uma chave de produtos e coloca toda a estrutura dos produtos dentro dela
+    listProdutosJSON.produtos = listProdutos;
+
+    
+    listaProdutosJSON.produtos = listaProdutos;
+    listaProdutosJSON.clientes = listaNomes;
+
+    // console.log(listProdutosJSON)
+    //para pegar o item dentro do JSON
+    // console.log('nome: ' + listProdutosJSON.produtos[1].nome);
+    // console.log('valor: ' + listProdutosJSON.produtos[1].valor);
+    // console.log('cor: ' + listProdutosJSON.produtos[1].cores[1]);
 
 
-//Desafio - remover um item, retornando uma nova lista sem este elemento, porém sem interferir na lista principal
+    //Retorna todos os dados de produto (1º nivel de dados JSON)
+    listProdutosJSON.produtos.forEach(function(dadosProduto){
+        console.log('Nome: ' + dadosProduto.nome);
+        console.log('Valor: ' + dadosProduto.valor);
+
+        //validação para tratar quando não existe cores de produto
+        if(dadosProduto.cores != undefined){
+            // retorna todas as cores existentes para cada produto
+            dadosProduto.cores.forEach(function(dadosCores){
+                console.log('**' + dadosCores);
+            })
+        }
+
+        //validação para tratar quando não existe tipos de produto
+        if(dadosProduto.tipo != undefined){
+            //retorna os tipos existentes para cada produto
+            dadosProduto.tipo.forEach(function(dadosTipo){
+                console.log('Tipo: ' + dadosTipo);
+            })
+        
+        }
+    })
+    
+ }
+
+ listagemProdutos();
+//  console.log(removerElemento(listaNomes,'Maria'));
+//  console.log(listaProdutos);
 
