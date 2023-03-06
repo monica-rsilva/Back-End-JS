@@ -22515,12 +22515,128 @@ const getListaDeEstados = function (){
    listUfJSON.uf = uf
    listUfJSON.quantidade = uf.length
 
-   console.log(listUfJSON)
+   // console.log(listUfJSON)
 }
 
 getListaDeEstados();
 
-const getDadosEstados = function (){
+const getDadosEstados = function (dadosEstados){
+
+   const listEstadosJSON = {};
+
+   estadosCidades.estados.forEach(function(estado){
+
+      if(estado.sigla == dadosEstados){
+         // listEstadosJSON = {uf:estado.sigla, descricao:estado.nome, capital:estado.capital ,regiao:estado.regiao}
+         listEstadosJSON.uf = estado.sigla
+         listEstadosJSON.descricao = estado.nome
+         listEstadosJSON.capital = estado.capital
+         listEstadosJSON.regiao = estado.regiao
+      }
+      
    
+   })
+   return listEstadosJSON
 }
+
+getDadosEstados();
+
+const getCapitalEstado = function (dadosCapital){
+
+   const listCapitalJSON = {};
+
+   estadosCidades.estados.forEach(function(capital){
+      if(capital.sigla == dadosCapital){
+         listCapitalJSON.uf = capital.sigla
+         listCapitalJSON.descricao = capital.nome
+         listCapitalJSON.capital = capital.capital
+      }
+   })
+
+   return listCapitalJSON
+}
+
+getCapitalEstado();
+
+const getEstadosRegiao = function (regiao) {
+
+  const listRegiaoJSON = {};
+  const listEstados = [];
+
+  estadosCidades.estados.forEach(function(dadosRegiao){
+      if(regiao == dadosRegiao.regiao){
+
+         listEstados.push({uf:dadosRegiao.sigla, descricao:dadosRegiao.nome});
+
+      }
+
+      listRegiaoJSON.regiao = regiao
+      listRegiaoJSON.estados = listEstados
+
+  })
+
+  return listRegiaoJSON
+
+}
+
+getEstadosRegiao();
+
+const getCapitalPais = function (){
+
+   const listCapitalJSON = {};
+   const listDadosCapital = [];
+
+   estadosCidades.estados.forEach(function (dadosCapital){
+      if(dadosCapital.capital_pais != undefined){
+
+         listDadosCapital.push({
+            capital_atual:dadosCapital.capital_pais.capital,
+            uf:dadosCapital.sigla,
+            descricao:dadosCapital.nome,
+            capital:dadosCapital.capital,
+            regiao:dadosCapital.regiao,
+            capital_pais_ano_inicio:dadosCapital.capital_pais.ano_inicio,
+            capital_pais_ano_termino:dadosCapital.capital_pais.ano_fim
+         })
+      }
+
+      listCapitalJSON.capitais = listDadosCapital
+
+   })
+
+   return listCapitalJSON
+
+}
+
+// console.log(getCapitalPais('Brasil'))
+
+getCapitalPais();
+
+
+const getCidades = function (sigla){
+
+   const listCidades = [];
+   const cidadesEstadosJSON = {};
+
+   estadosCidades.estados.forEach(function(dadosCidades){
+
+      if(sigla == dadosCidades.sigla){
+         dadosCidades.cidades.forEach(function(listaCidades){
+            listCidades.push(listaCidades.nome)
+         })
+         cidadesEstadosJSON.uf = dadosCidades.sigla
+         cidadesEstadosJSON.descricao = dadosCidades.nome
+         cidadesEstadosJSON.quantidade_cidades = listCidades.length
+         cidadesEstadosJSON.cidades = listCidades
+
+      }
+
+     
+
+   })
+   return cidadesEstadosJSON
+}
+
+getCidades();
+
 
