@@ -22515,7 +22515,7 @@ const getListaDeEstados = function (){
    listUfJSON.uf = uf
    listUfJSON.quantidade = uf.length
 
-   // console.log(listUfJSON)
+   return listUfJSON
 }
 
 getListaDeEstados();
@@ -22640,3 +22640,11 @@ const getCidades = function (sigla){
 getCidades();
 
 
+module.exports ={
+   getListaDeEstados, 
+   getDadosEstados, 
+   getCapitalEstado, 
+   getEstadosRegiao, 
+   getCapitalPais, 
+   getCidades
+}
