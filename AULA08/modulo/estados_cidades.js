@@ -22526,6 +22526,7 @@ const getDadosEstados = function (dadosEstados){
 
    estadosCidades.estados.forEach(function(estado){
 
+
       if(estado.sigla == dadosEstados){
          // listEstadosJSON = {uf:estado.sigla, descricao:estado.nome, capital:estado.capital ,regiao:estado.regiao}
          listEstadosJSON.uf = estado.sigla
@@ -22533,11 +22534,12 @@ const getDadosEstados = function (dadosEstados){
          listEstadosJSON.capital = estado.capital
          listEstadosJSON.regiao = estado.regiao
       }
-      
    
    })
    return listEstadosJSON
 }
+
+// console.log(getDadosEstados('Sp'))
 
 getDadosEstados();
 
