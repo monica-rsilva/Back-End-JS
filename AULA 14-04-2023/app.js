@@ -15,7 +15,7 @@
 
 //  import das bibliotecas do projeto
 const express = require('express');
-const cors =  require('cors');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const { request } = require('express');
 
@@ -26,7 +26,7 @@ const app = express();
 app.use((request, response, next) => {
     response.header('Acess-Control-Allow-Origin', '*');
 
-//  Permissões de metodos que serão utilizados na API
+    //  Permissões de metodos que serão utilizados na API
     response.header('Acess-Control-Allow-Methods', 'GET, POST , PUT , DELETE , OPTIONS');
 
     // Define as permissões para o cors
@@ -46,31 +46,49 @@ app.use((request, response, next) => {
  *******************************************************************/
 
 // EndPOint: Retorna todos os dados de alunos 
-app.get('/v1/lion-school/aluno', cors(), async function(request, response){
+app.get('/v1/lion-school/aluno', cors(), async function(request, response) {
 
+    // import da controller do ALuno
+    let controllerAluno = require('./controller/controller_aluno.js');
+
+    // solicita a controller que retorne todos os alunos do BD
+    let dados = await controllerAluno.selecionarTodosAlunos();
+
+    // valida se existem registros para retornar na requisição
+    if (dados) {
+        response.json(dados);
+        response.status(200);
+    } else {
+        response.json();
+        response.status(404);
+    }
 
 });
 
 // EndPOint: Retorna dados do aluno pelo ID
-app.get('/v1/lion-school/aluno/:id', cors(), async function(request, response){
+app.get('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
 
-    
+
 });
 
 // EndPOint: Inserir um novo aluno
-app.post('/v1/lion-school/aluno/:id', cors(), async function(request, response){
+app.post('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
 
-    
+
 });
 
 // EndPOint: Atualiza um aluno pelo ID
-app.put('/v1/lion-school/aluno/:id', cors(), async function(request, response){
+app.put('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
 
-    
+
 });
 
 // EndPOint: Exclui um aluno pelo ID
-app.delet('/v1/lion-school/aluno/:id', cors(), async function(request, response){
+app.delete('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
 
-    
+
 });
+
+app.listen(8080, function() {
+    console.log('servidor aguardando requisições na porta 8080!')
+})
