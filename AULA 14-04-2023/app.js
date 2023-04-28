@@ -5,13 +5,13 @@
  * Versão: 1.0
  ***************************************************************************/
 
-/**
+/************************************************************************
  * Para realizar a conexão com o Banco de Dados iremos utilizar o prisma 
  *  npm install prisma --save
  *  npx prisma 
  *  npx prisma init 
  *  npm install @prisma/client
- */
+ ************************************************************************/
 
 //  import das bibliotecas do projeto
 const express = require('express');
@@ -45,11 +45,14 @@ app.use((request, response, next) => {
  * Data: 14/04/2023
  *******************************************************************/
 
+//  Criando uma const para realizar o processo de padronização de dados que vão chegar no body da requisição
+const bodyJSON = bodyParser.json();
+
+// import da controller do ALuno
+var controllerAluno = require('./controller/controller_aluno.js');
+
 // EndPOint: Retorna todos os dados de alunos 
 app.get('/v1/lion-school/aluno', cors(), async function(request, response) {
-
-    // import da controller do ALuno
-    let controllerAluno = require('./controller/controller_aluno.js');
 
     // solicita a controller que retorne todos os alunos do BD
     let dados = await controllerAluno.selecionarTodosAlunos();
@@ -72,14 +75,24 @@ app.get('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
 });
 
 // EndPOint: Inserir um novo aluno
-app.post('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
+app.post('/v1/lion-school/aluno', cors(), bodyJSON, async function(request, response) {
 
+    // Recebe os dados encaminhados no body da requisição
+    let dadosBody = request.body;
+
+    console.log(dadosBody)
+
+    // Envia os dados para a controller
+    let resultInsertDados = await controllerAluno.inserirAluno(dadosBody);
+
+    // Retorna o status code e a message
+    response.status(resultInsertDados.status);
+    response.json(resultInsertDados)
 
 });
 
 // EndPOint: Atualiza um aluno pelo ID
 app.put('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
-
 
 });
 

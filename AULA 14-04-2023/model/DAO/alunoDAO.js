@@ -5,13 +5,41 @@
  * Versão: 1.0
  ***********************************************************/
 
-// Inserir um novo Registro no Banco de Dados
-const insert = function(dadosAluno) {
 
+// importe da biblioteca do prisma client (responsável por manipular dados no BD)
+var { PrismaClient } = require('@prisma/client')
+
+// instancia da classe do PrismaClient
+var prisma = new PrismaClient();
+
+// Inserir um novo Registro no Banco de Dados
+const insertAluno = async function(dadosAluno) {
+
+    // Script SQL para inserir os dados no BD
+    let sql = `insert into tbl_aluno (nome,
+                                      cpf,
+                                      rg,
+                                      data_nascimento,
+                                      email
+                                      )
+                                      values
+                                      ('${dadosAluno.nome}', 
+                                       '${dadosAluno.cpf}', 
+                                       '${dadosAluno.rg}',
+                                       '${dadosAluno.data_nascimento}',
+                                       '${dadosAluno.email}')
+                                      `;
+
+    // Executa o script SQL no BD e recebemos o retorno se deu certo ou não
+    let result = await prisma.$executeRawUnsafe(sql);
+    if (result)
+        return true;
+    else
+        return false;
 }
 
 // Atualizar um Registro no Banco de Dados
-const update = function(dadosAluno) {
+const updateAluno = function(dadosAluno) {
 
 }
 
@@ -22,11 +50,6 @@ const deleteAluno = function(id) {
 
 // Retorna todos os Registro do Banco de Dados
 const selectAllAluno = async function() {
-    // importe da biblioteca do prisma client (responsável por manipular dados no BD)
-    let { PrismaClient } = require('@prisma/client')
-
-    // instancia da classe do PrismaClient
-    let prisma = new PrismaClient();
 
     // variavel com o scriptSQL para executar o BD
     let sql = 'select * from tbl_aluno';
@@ -38,7 +61,6 @@ const selectAllAluno = async function() {
     let rsAluno = await prisma.$queryRawUnsafe(sql);
 
 
-
     // valida se o BD retornou algum registro
     if (rsAluno.length > 0)
         return rsAluno;
@@ -47,12 +69,12 @@ const selectAllAluno = async function() {
 
 }
 
-
 // Retorna um Registro filtrado pelo ID do Banco de Dados
 const selectByIdAluno = function(id) {
 
 }
 
 module.exports = {
-    selectAllAluno
+    selectAllAluno,
+    insertAluno
 }
