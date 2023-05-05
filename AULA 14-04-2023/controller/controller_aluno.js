@@ -8,12 +8,13 @@
 // import do arquivo de acesso ao BD
 var alunoDAO = require('../model/DAO/alunoDAO.js');
 
+// Import do arquivo de global de configurações do projeto
+var message = require('./modulo/config.js');
+
 //  Função para receber os dados do APP e enviar para a model para inserir um novo item
 const inserirAluno = async function(dadosAluno) {
 
-    // Import do arquivo de global de configurações do projeto
-    let message = require('./modulo/config.js');
-
+    // validação de dados
     if (dadosAluno.nome == '' || dadosAluno.nome == undefined || dadosAluno.nome.length > 100 ||
         dadosAluno.cpf == '' || dadosAluno.cpf == undefined || dadosAluno.cpf.length > 18 ||
         dadosAluno.rg == '' || dadosAluno.rg == undefined || dadosAluno.rg.length > 15 ||
@@ -34,12 +35,50 @@ const inserirAluno = async function(dadosAluno) {
 };
 
 //  Função para receber os dados do APP e enviar para a model para atualizar um item existente
-const atualizarAluno = function(dadosAlunos) {
+const atualizarAluno = async function(dadosAluno,idAluno) {
+
+    // validação de dados
+    if (dadosAluno.nome == '' || dadosAluno.nome == undefined || dadosAluno.nome.length > 100 ||
+        dadosAluno.cpf == '' || dadosAluno.cpf == undefined || dadosAluno.cpf.length > 18 ||
+        dadosAluno.rg == '' || dadosAluno.rg == undefined || dadosAluno.rg.length > 15 ||
+        dadosAluno.data_nascimento == '' || dadosAluno.data_nascimento == undefined || dadosAluno.data_nascimento.length > 10 ||
+        dadosAluno.email == '' || dadosAluno.email == undefined || dadosAluno.email.length > 255
+
+    ) {
+        return message.ERRO_REQUIRED_DATA;
+        // Validação para o ID
+    } else if(idAluno == '' || idAluno == undefined || isNaN(idAluno) ){
+
+        return message.ERROR_REQUIRED_ID;
+    } else {
+        // Adiciona o id no json com todos os dados 
+        dadosAluno.id = idAluno;
+        // Encaminha para o DAO os dados para serem alterados 
+        let status = await alunoDAO.updateAluno(dadosAluno);
+
+        if(status)
+            return message.UPDATED_ITEM;
+        else
+            return message.ERROR_INTERNAL_SERVER;
+    }
 
 };
 
 //  Função para excluir um aluno filtrado pelo id, será encaminhado para a model
-const deletarAluno = function(id) {
+const deletarAluno = async function(idAluno) {
+
+    if(idAluno == '' || idAluno == undefined || isNaN(idAluno)){
+        return message.ERROR_REQUIRED_ID;
+    } else {
+
+        let status = await alunoDAO.deleteAluno(idAluno);
+
+        if(status)
+            return message.DELETED_ITEM;
+        else
+            return message.ERROR_INTERNAL_SERVER;
+    }
+
 
 };
 
@@ -70,5 +109,7 @@ const buscarIdAluno = function(id) {
 
 module.exports = {
     selecionarTodosAlunos,
-    inserirAluno
+    inserirAluno,
+    atualizarAluno,
+    deletarAluno
 }

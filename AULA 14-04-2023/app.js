@@ -50,6 +50,7 @@ const bodyJSON = bodyParser.json();
 
 // import da controller do ALuno
 var controllerAluno = require('./controller/controller_aluno.js');
+var message = require('./controller/modulo/config.js')
 
 // EndPOint: Retorna todos os dados de alunos 
 app.get('/v1/lion-school/aluno', cors(), async function(request, response) {
@@ -77,10 +78,13 @@ app.get('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
 // EndPOint: Inserir um novo aluno
 app.post('/v1/lion-school/aluno', cors(), bodyJSON, async function(request, response) {
 
-    // Recebe os dados encaminhados no body da requisição
+    let contentType = request.headers['content-type'];
+
+    if (String(contentType).toLowerCase() == 'application/json') {
+        // Recebe os dados encaminhados no body da requisição
     let dadosBody = request.body;
 
-    console.log(dadosBody)
+    // console.log(dadosBody)
 
     // Envia os dados para a controller
     let resultInsertDados = await controllerAluno.inserirAluno(dadosBody);
@@ -88,17 +92,37 @@ app.post('/v1/lion-school/aluno', cors(), bodyJSON, async function(request, resp
     // Retorna o status code e a message
     response.status(resultInsertDados.status);
     response.json(resultInsertDados)
-
+    } else {
+        response.status(message.ERROR_INVALID_CONTENT_TYPE.status);
+        response.json(message.ERROR_INVALID_CONTENT_TYPE)
+    }
 });
 
 // EndPOint: Atualiza um aluno pelo ID
-app.put('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
+app.put('/v1/lion-school/aluno/:id', cors(), bodyJSON, async function(request, response) {
+
+    // Recebe os dados do body
+    let dadosBody = request.body;
+
+    // Recebe o id do aluno
+    let idAluno = request.params.id;
+
+    let resultUpdateDados = await controllerAluno.atualizarAluno(dadosBody,idAluno);
+
+    response.status(resultUpdateDados.status);
+    response.json(resultUpdateDados);
 
 });
 
 // EndPOint: Exclui um aluno pelo ID
-app.delete('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
+app.delete('/v1/lion-school/aluno/:id', cors(), bodyJSON, async function(request, response) {
 
+    let idAluno = request.params.id;
+
+    let resultDeleteDados = await controllerAluno.deletarAluno(idAluno)
+
+    response.status(resultDeleteDados.status);
+    response.json(resultDeleteDados);
 
 });
 

@@ -39,13 +39,36 @@ const insertAluno = async function(dadosAluno) {
 }
 
 // Atualizar um Registro no Banco de Dados
-const updateAluno = function(dadosAluno) {
+const updateAluno = async function(dadosAluno) {
 
+    let sql = `update tbl_aluno set
+                    nome = '${dadosAluno.nome}',
+                    rg = '${dadosAluno.rg}',
+                    cpf = '${dadosAluno.cpf}',
+                    data_nascimento = '${dadosAluno.data_nascimento}',
+                    email = '${dadosAluno.email}'
+              where id = ${dadosAluno.id}`
+
+    // Executa o script no banco de dados
+    let result = await prisma.$executeRawUnsafe(sql)
+
+    if(result)
+        return true;
+    else
+        return false;
 }
 
 // Excluir um Registro do Banco de Dados
-const deleteAluno = function(id) {
+const deleteAluno = async function(id) {
 
+    let sql = ` delete from tbl_aluno where id = ${id}`
+
+    let result = await prisma.$executeRawUnsafe(sql)
+
+    if(result)
+        return true;
+    else
+        return false;
 }
 
 // Retorna todos os Registro do Banco de Dados
@@ -76,5 +99,7 @@ const selectByIdAluno = function(id) {
 
 module.exports = {
     selectAllAluno,
-    insertAluno
+    insertAluno,
+    updateAluno,
+    deleteAluno
 }
