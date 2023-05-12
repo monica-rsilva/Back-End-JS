@@ -59,19 +59,37 @@ app.get('/v1/lion-school/aluno', cors(), async function(request, response) {
     let dados = await controllerAluno.selecionarTodosAlunos();
 
     // valida se existem registros para retornar na requisição
-    if (dados) {
-        response.json(dados);
-        response.status(200);
-    } else {
-        response.json();
-        response.status(404);
-    }
+    response.status(dados.status);
+    response.json(dados);
 
 });
 
 // EndPOint: Retorna dados do aluno pelo ID
 app.get('/v1/lion-school/aluno/:id', cors(), async function(request, response) {
 
+    // Recebe o ID enviado na requisição
+    let idAluno = request.params.id;
+
+    // solicita a controller que retorne todos os alunos do BD
+    let dados = await controllerAluno.buscarIdAluno(idAluno);
+
+    // valida se existem registros para retornar na requisição
+    response.status(dados.status);
+    response.json(dados);
+
+});
+
+app.get('/v1/lion-school/aluno/:nome', cors(), async function(request, response) {
+
+    // Recebe o nome enviado na requisição
+    let nomeAluno = request.params.nome;
+
+    // solicita a controller que retorne todos os alunos do BD
+    let dados = await controllerAluno.buscarAlunoPeloNome(nomeAluno);
+
+    // valida se existem registros para retornar na requisição
+    response.status(dados.status);
+    response.json(dados);
 
 });
 
